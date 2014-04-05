@@ -39,6 +39,11 @@ class BasicEnglish
 		bits -= (int) (Math.log(range) / Math.log(2));
 		return (int) (Math.random() *(range));
 	}
+
+	boolean branch() {
+		if(bits > 0) return rand(2) == 0;
+		return false;
+	}
 	
 	void printWord(ArrayList<String> array) {
 		System.out.print(array.get(rand(array.size())) + " ");
@@ -46,19 +51,20 @@ class BasicEnglish
 	
 	void printNounPhrase() {
 		printWord(art);
-		if(rand(2) == 0) printWord(adj);
+		if(branch()) printWord(adj);
 		printWord(n);
 	}
 	
 	void printSentence() {
 		printNounPhrase(); // Subject
-		if(rand(2) == 0) printWord(vi); // Intransitive verb
-		else {
+		if(branch()) {
 			printWord(vt); // Transitive verb
 			printNounPhrase(); // Object of transitive verb
+		} else {
+			printWord(vi); // Intransitive verb
 		}
-		if(rand(2) == 0) printWord(adv); // Adverb
-		if(rand(2) == 0) {
+		if(branch()) printWord(adv); // Adverb
+		if(branch()) {
 			printWord(p); // Preposition
 			printNounPhrase(); // Object of preposition
 		}
